@@ -2,7 +2,7 @@
 
 use rocket_sync_db_pools::{database, postgres};
 
-pub mod channel;
+pub mod feed;
 
 #[database("crawly_db")]
 pub struct CrawlyDatabase(postgres::Client);

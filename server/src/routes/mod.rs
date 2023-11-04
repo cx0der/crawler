@@ -1,1 +1,1 @@
-pub mod channels;
+pub mod feeds;

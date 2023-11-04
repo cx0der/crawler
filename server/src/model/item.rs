@@ -1,13 +1,13 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local};
 use uuid::Uuid;
 
 #[derive(Debug)]
 pub struct Item {
-    pub item_id: Uuid,
-    pub channel_id: Uuid,
-    pub item_title: String,
-    pub item_description: String,
-    pub item_url: String,
-    pub item_timestamp: DateTime<Utc>,
+    pub id: Uuid,
+    pub feed_id: Uuid,
+    pub title: String,
+    pub description: String,
+    pub url: String,
+    pub published_at: DateTime<Local>,
     pub is_read: bool,
 }
