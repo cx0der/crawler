@@ -3,6 +3,10 @@ name = "crawly"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "parser"
+path = "src/lib.rs"
+
 [dependencies]
 dotenv = "0.15"
 uuid = {version = '1.5', features = ["v4"]}

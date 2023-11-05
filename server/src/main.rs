@@ -1,4 +1,4 @@
-use config::get_app_config;
+use config::get_server_app_config;
 use db::CrawlyDatabase;
 use rocket::{launch, routes};
 use routes::feeds::{create_feed, get_all_feeds};
@@ -14,7 +14,7 @@ fn rocket() -> _ {
     let rocket = rocket::build();
     let figment = rocket.figment();
 
-    let app_config = get_app_config(figment);
+    let app_config = get_server_app_config(figment);
 
     rocket::custom(app_config)
         .mount("/", routes![get_all_feeds, create_feed])

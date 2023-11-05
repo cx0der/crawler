@@ -2,6 +2,7 @@
 
 use rocket_sync_db_pools::{database, postgres};
 
+pub mod article;
 pub mod feed;
 
 #[database("crawly_db")]
