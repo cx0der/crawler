@@ -36,11 +36,11 @@ pub fn add_articles(
     added_items
 }
 
-pub fn mark_article_as_read(connection: &mut Client, item_id: Uuid) -> bool {
+pub fn mark_article_as_read(connection: &mut Client, item_id: &Uuid) -> bool {
     set_article_read_state(connection, true, item_id)
 }
 
-pub fn _mark_article_as_unread(connection: &mut Client, item_id: Uuid) -> bool {
+pub fn _mark_article_as_unread(connection: &mut Client, item_id: &Uuid) -> bool {
     set_article_read_state(connection, false, item_id)
 }
 
@@ -48,11 +48,11 @@ pub fn _get_all_unread_articles(_connection: &mut Client) -> HashMap<Uuid, Vec<A
     unimplemented!()
 }
 
-pub fn _get_all_articles_for_feed(_connection: &mut Client, _feed_id: Uuid) -> Vec<Article> {
+pub fn _get_all_articles_for_feed(_connection: &mut Client, _feed_id: &Uuid) -> Vec<Article> {
     unimplemented!()
 }
 
-fn set_article_read_state(connection: &mut Client, read_state: bool, item_id: Uuid) -> bool {
+fn set_article_read_state(connection: &mut Client, read_state: bool, item_id: &Uuid) -> bool {
     let sql = get_article_read_state_update_query();
 
     connection.execute(sql, &[&read_state, &item_id]).unwrap();

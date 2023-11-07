@@ -7,12 +7,23 @@ use uuid::Uuid;
 
 use crate::model::feed::Feed;
 
-pub fn add_feed(connection: &mut Client, url: &str) -> Feed {
+pub fn add_feed(connection: &mut Client, feed: &Feed) -> Feed {
     let sql = get_add_feed_query();
     // Set the last updated to Epoch to trigger crawling
     let last_updated: DateTime<Local> = DateTime::from(SystemTime::UNIX_EPOCH);
 
-    let result = connection.query_one(sql, &[&url, &last_updated]).unwrap();
+    let result = connection
+        .query_one(
+            sql,
+            &[
+                &feed.name,
+                &feed.description,
+                &feed.url,
+                &feed.icon_url,
+                &last_updated,
+            ],
+        )
+        .unwrap();
 
     Feed {
         id: result.get(0),
@@ -35,7 +46,7 @@ pub fn get_feeds(connection: &mut Client) -> Vec<Feed> {
     feeds
 }
 
-pub fn get_feeds_older_than(connection: &mut Client, older_than_secs: i16) -> Vec<Feed> {
+pub fn get_feeds_older_than(connection: &mut Client, older_than_secs: &i16) -> Vec<Feed> {
     let sql = format!(
         "SELECT id, name, description, url, icon_url, last_updated FROM feed \
     WHERE last_updated < NOW() - INTERVAL '{} SEC'",
@@ -50,7 +61,7 @@ pub fn get_feeds_older_than(connection: &mut Client, older_than_secs: i16) -> Ve
     feeds
 }
 
-pub fn update_feed_last_updated(connection: &mut Client, feed_id: Uuid) -> u64 {
+pub fn update_feed_last_updated(connection: &mut Client, feed_id: &Uuid) -> u64 {
     let sql = "UPDATE feed SET last_updated = $1 WHERE id = $2";
     let update_time: DateTime<Local> = Local::now();
 
@@ -60,7 +71,7 @@ pub fn update_feed_last_updated(connection: &mut Client, feed_id: Uuid) -> u64 {
 
 fn get_add_feed_query() -> &'static str {
     "INSERT INTO feed (name, description, url, icon_url, last_updated) \
-    VALUES('', '', $1, '', $2) RETURNING id, name, description, url, icon_url, last_updated"
+    VALUES($1, $2, $3, $4, $5) RETURNING id, name, description, url, icon_url, last_updated"
 }
 
 fn get_feeds_query() -> &'static str {

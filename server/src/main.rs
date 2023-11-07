@@ -1,13 +1,9 @@
-use config::get_server_app_config;
-use db::CrawlyDatabase;
+use parser::config::get_server_app_config;
+use parser::db::CrawlyDatabase;
+use parser::routes::feeds::{create_feed, get_all_feeds};
 use rocket::{launch, routes};
-use routes::feeds::{create_feed, get_all_feeds};
 
 // Declare all the modules that we plan to use with this main binary
-mod config;
-mod db;
-mod model;
-mod routes;
 
 #[launch]
 fn rocket() -> _ {

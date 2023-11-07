@@ -21,10 +21,10 @@ impl Article {
         }
     }
 
-    pub fn from_item(item: &Item, feed_id: Uuid) -> Article {
+    pub fn from_item(item: &Item, feed_id: &Uuid) -> Article {
         Article {
             id: None,
-            feed_id: feed_id,
+            feed_id: Uuid::from_bytes(feed_id.into_bytes()),
             title: item.title.as_ref().unwrap().to_string(),
             body: item
                 .content
