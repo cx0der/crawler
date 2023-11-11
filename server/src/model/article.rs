@@ -1,8 +1,10 @@
 use chrono::{DateTime, Local};
+use rocket::serde::{Deserialize, Serialize};
 use rss::Item;
 use uuid::Uuid;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
+#[serde(crate = "rocket::serde", rename_all = "camelCase")]
 pub struct Article {
     pub id: Option<Uuid>,
     pub feed_id: Uuid,
@@ -38,4 +40,11 @@ impl Article {
             is_read: false,
         }
     }
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(crate = "rocket::serde", rename_all = "camelCase")]
+pub struct UpdateArticles {
+    pub ids: Vec<Uuid>,
+    pub is_read: bool,
 }

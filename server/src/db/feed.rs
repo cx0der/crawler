@@ -40,8 +40,8 @@ pub fn get_feeds(connection: &mut Client) -> Vec<Feed> {
     let prepared_stmt = connection.prepare(sql).unwrap();
 
     let mut feeds: Vec<Feed> = vec![];
-    for row in connection.query(&prepared_stmt, &[]).unwrap().iter() {
-        feeds.push(get_feed_from_row(row));
+    for row in connection.query(&prepared_stmt, &[]).unwrap() {
+        feeds.push(get_feed_from_row(&row));
     }
     feeds
 }
@@ -55,8 +55,8 @@ pub fn get_feeds_older_than(connection: &mut Client, older_than_secs: &i16) -> V
 
     let mut feeds: Vec<Feed> = vec![];
 
-    for row in connection.query(sql.as_str(), &[]).unwrap().iter() {
-        feeds.push(get_feed_from_row(row));
+    for row in connection.query(sql.as_str(), &[]).unwrap() {
+        feeds.push(get_feed_from_row(&row));
     }
     feeds
 }

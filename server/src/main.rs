@@ -1,5 +1,6 @@
 use parser::config::get_server_app_config;
 use parser::db::CrawlyDatabase;
+use parser::routes::articles::{get_articles, update_article_read_state};
 use parser::routes::feeds::{create_feed, get_all_feeds};
 use rocket::{launch, routes};
 
@@ -13,6 +14,14 @@ fn rocket() -> _ {
     let app_config = get_server_app_config(figment);
 
     rocket::custom(app_config)
-        .mount("/", routes![get_all_feeds, create_feed])
+        .mount(
+            "/",
+            routes![
+                get_all_feeds,
+                create_feed,
+                get_articles,
+                update_article_read_state
+            ],
+        )
         .attach(CrawlyDatabase::fairing())
 }
