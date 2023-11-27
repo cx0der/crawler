@@ -12,7 +12,12 @@
       <div class="home__articles">
         <ul class="articles">
           <li v-for="article in feedStore.rawUnreadArticles" :key="article.id">
-            <ArticleListItem :article="article" :feed-name="getFeedName(article.feedId)"/>
+            <ArticleListItem
+              :article="article"
+              :feed-name="getFeedName(article.feedId)"
+              @read-toggle="onArticleReadToggle"
+              @favorite-toggle="onArticleFavoriteToggle"
+            />
           </li>
         </ul>
       </div>
@@ -35,6 +40,13 @@ onMounted(() => {
 const getFeedName = (feedId: String): String => {
   const feed = feedStore.rawFeeds.find(f => f.id === feedId)
   return feed ? feed.name : ""
+}
+
+const onArticleReadToggle = (isRead: boolean, id: String) => {
+  console.log(`isRead: ${isRead}, id: ${id}`)
+}
+const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
+  console.log(`isFavorite: ${isFavorite}, id: ${id}`)
 }
 </script>
 

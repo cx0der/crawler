@@ -6,4 +6,5 @@ export interface Article {
   url: string,
   publishedAt: Date,
   isRead: boolean,
+  isFavorite: boolean
 }
