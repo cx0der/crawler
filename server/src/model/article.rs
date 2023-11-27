@@ -13,6 +13,7 @@ pub struct Article {
     pub url: String,
     pub published_at: DateTime<Local>,
     pub is_read: bool,
+    pub is_favourite: bool,
 }
 
 impl Article {
@@ -38,13 +39,15 @@ impl Article {
                 .unwrap()
                 .into(),
             is_read: false,
+            is_favourite: false,
         }
     }
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "rocket::serde", rename_all = "camelCase")]
-pub struct UpdateArticles {
+pub struct UpdateArticlesState {
     pub ids: Vec<Uuid>,
-    pub is_read: bool,
+    pub is_read: Option<bool>,
+    pub is_favourite: Option<bool>,
 }
