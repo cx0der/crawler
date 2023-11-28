@@ -1,12 +1,7 @@
-<script setup lang="ts"></script>
-
 <template>
   <aside>
-    <nav>
-      
-    </nav>
+    <nav></nav>
   </aside>
 </template>
-
-<style>
-</style>
+<script setup lang="ts"></script>
+<style scoped></style>

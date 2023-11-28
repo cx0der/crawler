@@ -4,14 +4,14 @@
     <div class="main__container">
       <div class="home__nav">
         <ul class="feed">
-          <li v-for="feed in feedStore.rawFeeds" :key="feed.id" class="feed__item">
+          <li v-for="feed in feedStore.feeds" :key="feed.id" class="feed__item">
             <a class="feed__item--link title-medium" href="#">{{ feed.name }}</a>
           </li>
         </ul>
       </div>
       <div class="home__articles">
         <ul class="articles">
-          <li v-for="article in feedStore.rawUnreadArticles" :key="article.id">
+          <li v-for="article in feedStore.unreadArticles" :key="article.id">
             <ArticleListItem
               :article="article"
               :feed-name="getFeedName(article.feedId)"
@@ -26,9 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useFeedStore } from "@/stores/feed";
-import ArticleListItem from "@/components/ArticleListItem.vue";
+import { onMounted } from 'vue'
+import { useFeedStore } from '@/stores/feed'
+import ArticleListItem from '@/components/ArticleListItem.vue'
 
 const feedStore = useFeedStore()
 
@@ -38,15 +38,15 @@ onMounted(() => {
 })
 
 const getFeedName = (feedId: String): String => {
-  const feed = feedStore.rawFeeds.find(f => f.id === feedId)
-  return feed ? feed.name : ""
+  const feed = feedStore.feeds.find((f) => f.id === feedId)
+  return feed ? feed.name : ''
 }
 
 const onArticleReadToggle = (isRead: boolean, id: String) => {
-  console.log(`isRead: ${isRead}, id: ${id}`)
+  feedStore.updateArticleReadState(id, isRead)
 }
 const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
-  console.log(`isFavorite: ${isFavorite}, id: ${id}`)
+  feedStore.updateArticleFavouriteState(id, isFavorite)
 }
 </script>
 
