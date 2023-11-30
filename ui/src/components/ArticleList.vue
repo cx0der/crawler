@@ -21,21 +21,21 @@ interface Props {
 }
 
 const emit = defineEmits<{
-  'read-toggle': [isRead: boolean, id: String]
-  'favorite-toggle': [isFavorite: boolean, id: String]
+  'read-toggle': [isRead: boolean, id: string]
+  'favorite-toggle': [isFavorite: boolean, id: string]
 }>()
 
 const props = defineProps<Props>()
 
-const getFeedName = (feedId: String): String => {
+const getFeedName = (feedId: string): string => {
   const feed = props.feeds.find((f) => f.id === feedId)
   return feed ? feed.name : ''
 }
 
-const onArticleReadToggle = (isRead: boolean, id: String) => {
+const onArticleReadToggle = (isRead: boolean, id: string) => {
   emit('read-toggle', isRead, id)
 }
-const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
+const onArticleFavoriteToggle = (isFavorite: boolean, id: string) => {
   emit('favorite-toggle', isFavorite, id)
 }
 </script>

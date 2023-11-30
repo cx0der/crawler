@@ -39,7 +39,7 @@ export const useFeedStore = defineStore('feed', {
         throw new Error(' ' + error)
       }
     },
-    updateArticleReadState(id: String, isRead: boolean) {
+    updateArticleReadState(id: string, isRead: boolean) {
       const updatedArticles = this.articles.map((a) => {
         if (a.id === id) {
           return {
@@ -61,7 +61,7 @@ export const useFeedStore = defineStore('feed', {
           console.error('update failed with ' + e)
         })
     },
-    updateArticleFavouriteState(id: String, isFavourite: boolean) {
+    updateArticleFavouriteState(id: string, isFavourite: boolean) {
       const updatedArticles = this.articles.map((a) => {
         if (a.id === id) {
           return {

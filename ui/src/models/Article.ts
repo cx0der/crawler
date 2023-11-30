@@ -10,7 +10,7 @@ export interface Article {
 }
 
 export interface ArticleUpdateRequest {
-  ids: String[]
+  ids: string[]
   isRead?: boolean
   isFavourite?: boolean
 }

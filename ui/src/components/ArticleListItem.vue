@@ -40,12 +40,12 @@ import type { Article } from '@/models/Article'
 import { computed, reactive, ref } from 'vue'
 
 const emit = defineEmits<{
-  'read-toggle': [isRead: boolean, id: String]
-  'favorite-toggle': [isFavorite: boolean, id: String]
+  'read-toggle': [isRead: boolean, id: string]
+  'favorite-toggle': [isFavorite: boolean, id: string]
 }>()
 interface Props {
   article: Article
-  feedName: String
+  feedName: string
 }
 const props = defineProps<Props>()
 
@@ -54,7 +54,7 @@ const isRead = ref(props.article.isRead)
 const isFavorite = ref(props.article.isFavorite)
 reactive({ showDetails, isRead, isFavorite })
 
-const formattedDate = computed(() => {
+const formattedDate = computed((): string => {
   const date = new Date(props.article.publishedAt)
   return `Published at: ${date.toLocaleString()} by: ${props.feedName}`
 })

@@ -38,10 +38,10 @@ onMounted(() => {
 const selectedFeed = ref('')
 reactive({ selectedFeed })
 
-const onArticleReadToggle = (isRead: boolean, id: String) => {
+const onArticleReadToggle = (isRead: boolean, id: string) => {
   feedStore.updateArticleReadState(id, isRead)
 }
-const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
+const onArticleFavoriteToggle = (isFavorite: boolean, id: string) => {
   feedStore.updateArticleFavouriteState(id, isFavorite)
 }
 
