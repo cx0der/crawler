@@ -3,11 +3,15 @@
     <h1 class="headline-large">Crawly</h1>
     <div class="main__container">
       <div class="home__nav">
-        <FeedList :feeds="feedStore.feeds" />
+        <FeedList
+          :articles="feedStore.unreadArticles"
+          :feeds="feedStore.feeds"
+          @feed-select="onFeedSelected"
+        />
       </div>
       <div class="home__articles">
         <ArticleList
-          :articles="feedStore.unreadArticles"
+          :articles="articlesToDisplay"
           :feeds="feedStore.feeds"
           @read-toggle="onArticleReadToggle"
           @favorite-toggle="onArticleFavoriteToggle"
@@ -18,10 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useFeedStore } from '@/stores/feed'
 import ArticleList from '@/components/ArticleList.vue'
 import FeedList from '@/components/FeedList.vue'
+import type { Article } from '@/models/Article'
 
 const feedStore = useFeedStore()
 
@@ -30,12 +35,26 @@ onMounted(() => {
   feedStore.fetchUnreadArticles()
 })
 
+const selectedFeed = ref('')
+reactive({ selectedFeed })
+
 const onArticleReadToggle = (isRead: boolean, id: String) => {
   feedStore.updateArticleReadState(id, isRead)
 }
 const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
   feedStore.updateArticleFavouriteState(id, isFavorite)
 }
+
+const onFeedSelected = (id: string) => {
+  selectedFeed.value = id
+}
+
+const articlesToDisplay = computed((): Article[] => {
+  if (selectedFeed.value) {
+    return feedStore.unreadArticles.filter((a) => a.feedId === selectedFeed.value)
+  }
+  return feedStore.unreadArticles
+})
 </script>
 
 <style scoped>

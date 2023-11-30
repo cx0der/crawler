@@ -39,4 +39,8 @@ const onArticleFavoriteToggle = (isFavorite: boolean, id: String) => {
   emit('favorite-toggle', isFavorite, id)
 }
 </script>
-<style scoped></style>
+<style scoped>
+.articles {
+  list-style: none;
+}
+</style>
