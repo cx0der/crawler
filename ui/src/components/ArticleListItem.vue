@@ -1,39 +1,23 @@
 <template>
-  <article class="article-card on-surface">
-    <div class="article-card__title-container">
-      <span
-        :class="[
-          isRead ? 'article-card__read-indicator--read' : 'article-card__read-indicator--unread'
-        ]"
-        @click="onReadToggle"
-        class="article-card__read-indicator"
-      />
-      <span
-        :class="[
-          isFavorite ? 'article-card__favorite--favorite' : 'article-card__favorite--not-favorite'
-        ]"
-        @click="onFavoriteToggle"
-        class="article-card__favorite-indicator"
-      />
-      <span @click="onDetailsToggle" class="title-medium article-card__title">
-        {{ article.title }}
-      </span>
-      <div
-        @click="onDetailsToggle"
-        :class="[showDetails ? 'article-card__chevron--open' : 'article-card__chevron--closed']"
-        class="article-card__chevron"
-      />
-    </div>
-    <div v-if="showDetails" class="article-card__contents-holder">
-      <h5 class="headline-small">
-        <a :href="article.url" target="_blank">
-          {{ article.title }}
-        </a>
-      </h5>
-      <div v-html="article.body" class="body-large" />
-    </div>
-    <span class="article-card__published-at body-medium">{{ formattedDate }}</span>
-  </article>
+  <v-card variant="elevated" @click="onDetailsToggle" class="mb-2">
+    <template v-slot:prepend>
+      <v-icon :icon="readIcon" @click="onReadToggle"></v-icon>
+      <v-icon :icon="favoriteIcon" @click="onFavoriteToggle"></v-icon>
+    </template>
+    <template v-slot:append>
+      <span class="text-body-2">{{ formattedDate }}</span>
+      <v-icon :icon="chevronIcon"></v-icon>
+    </template>
+    <template v-slot:title>
+      <span>{{ article.title }}</span>
+    </template>
+    <v-card-text v-if="showDetails">
+      <div class="text-h4">
+        <a :href="article.url" target="_blank">{{ article.title }}</a>
+      </div>
+      <div v-html="article.body"></div>
+    </v-card-text>
+  </v-card>
 </template>
 <script setup lang="ts">
 import type { Article } from '@/models/Article'
@@ -56,7 +40,11 @@ reactive({ showDetails, isRead, isFavorite })
 
 const formattedDate = computed((): string => {
   const date = new Date(props.article.publishedAt)
-  return `Published at: ${date.toLocaleString()} by: ${props.feedName}`
+  return `Published at: ${date.toLocaleString(navigator.language, {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    hour12: true
+  })}`
 })
 
 const onDetailsToggle = () => {
@@ -72,66 +60,17 @@ const onFavoriteToggle = () => {
   isFavorite.value = !isFavorite.value
   emit('favorite-toggle', isFavorite.value, props.article.id)
 }
+
+const readIcon = computed((): string => {
+  return isRead.value ? 'mdi-email-open-outline' : 'mdi-email-outline'
+})
+
+const favoriteIcon = computed((): string => {
+  return isFavorite.value ? 'mdi-heart' : 'mdi-heart-outline'
+})
+
+const chevronIcon = computed((): string => {
+  return showDetails.value ? 'mdi-chevron-up' : 'mdi-chevron-down'
+})
 </script>
-<style scoped>
-.article-card {
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
-  margin: 0px 8px 8px 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-.article-card__title-container {
-  display: flex;
-}
-.article-card__title {
-  cursor: pointer;
-  margin-top: 8px;
-}
-.article-card__read-indicator {
-  cursor: pointer;
-  height: 1.5em;
-  margin-top: 8px;
-  width: 1.5em;
-}
-.article-card__read-indicator--unread {
-  background-image: url('../assets/icons/unread.svg');
-}
-.article-card__read-indicator--read {
-  background-image: url('../assets/icons/read.svg');
-}
-.article-card__favorite-indicator {
-  cursor: pointer;
-  height: 1.5em;
-  margin-left: 4px;
-  margin-top: 8px;
-  margin-right: 8px;
-  width: 1.5em;
-}
-.article-card__favorite--not-favorite {
-  background-image: url('../assets/icons/not_favorite.svg');
-}
-.article-card__favorite--favorite {
-  background-image: url('../assets/icons/favorite.svg');
-}
-.article-card__chevron {
-  cursor: pointer;
-  height: 1.5em;
-  margin-left: auto; /* push this to the end */
-  margin-top: 8px;
-  width: 1.5em;
-}
-.article-card__chevron--closed {
-  background-image: url('../assets/icons/expand_more.svg');
-}
-.article-card__chevron--open {
-  background-image: url('../assets/icons/expand_less.svg');
-}
-.article-card__contents-holder {
-  margin: 16px auto;
-}
-.article-card__published-at {
-  display: block;
-  margin-top: 8px;
-}
-</style>
+<style scoped></style>

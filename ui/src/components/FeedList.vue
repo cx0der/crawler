@@ -1,20 +1,18 @@
 <template>
-  <aside>
-    <nav>
-      <ul class="feed">
-        <li @click="onFeedSelect('')" class="feed__item">
-          <span class="title-medium"> All </span>
-          <span class="title-small">({{ articles.length }})</span>
-        </li>
-        <li v-for="feed in feeds" :key="feed.id" @click="onFeedSelect(feed.id)" class="feed__item">
-          <span class="title-medium">
-            {{ feed.name }}
-          </span>
-          <span class="title-small">({{ getUnreadCount(feed.id) }})</span>
-        </li>
-      </ul>
-    </nav>
-  </aside>
+  <v-navigation-drawer>
+    <v-list nav>
+      <v-list-item @click="onFeedSelect('')">
+        <span> All </span>
+        <span>({{ articles.length }})</span>
+      </v-list-item>
+      <v-list-item v-for="feed in feeds" :key="feed.id" @click="onFeedSelect(feed.id)">
+        <span>
+          {{ feed.name }}
+        </span>
+        <span>({{ getUnreadCount(feed.id) }})</span>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 <script setup lang="ts">
 import type { Article } from '@/models/Article'
@@ -38,18 +36,4 @@ const onFeedSelect = (id: string): void => {
   emit('feed-select', id)
 }
 </script>
-<style scoped>
-.feed {
-  list-style: none;
-  padding: 0;
-}
-.feed__item {
-  cursor: pointer;
-  margin-bottom: 8px;
-  margin-left: 8px;
-  margin-right: 8px;
-}
-.feed__item:hover {
-  text-decoration: underline;
-}
-</style>
+<style scoped></style>

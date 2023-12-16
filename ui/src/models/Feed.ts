@@ -4,4 +4,5 @@ export type Feed = {
   description: string
   url: string
   lastUpdated: Date
+  iconUrl: string
 }

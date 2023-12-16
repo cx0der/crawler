@@ -1,14 +1,14 @@
 <template>
-  <ul class="articles">
-    <li v-for="article in articles" :key="article.id">
+  <v-list>
+    <v-list-item v-for="article in articles" :key="article.id">
       <ArticleListItem
         :article="article"
         :feed-name="getFeedName(article.feedId)"
         @read-toggle="onArticleReadToggle"
         @favorite-toggle="onArticleFavoriteToggle"
       />
-    </li>
-  </ul>
+    </v-list-item>
+  </v-list>
 </template>
 <script setup lang="ts">
 import type { Article } from '@/models/Article'
@@ -39,8 +39,4 @@ const onArticleFavoriteToggle = (isFavorite: boolean, id: string) => {
   emit('favorite-toggle', isFavorite, id)
 }
 </script>
-<style scoped>
-.articles {
-  list-style: none;
-}
-</style>
+<style scoped></style>
