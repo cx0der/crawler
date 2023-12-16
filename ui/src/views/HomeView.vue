@@ -1,24 +1,20 @@
 <template>
-  <main>
-    <h1 class="headline-large">Crawly</h1>
-    <div class="main__container">
-      <div class="home__nav">
-        <FeedList
-          :articles="feedStore.unreadArticles"
-          :feeds="feedStore.feeds"
-          @feed-select="onFeedSelected"
-        />
-      </div>
-      <div class="home__articles">
-        <ArticleList
-          :articles="articlesToDisplay"
-          :feeds="feedStore.feeds"
-          @read-toggle="onArticleReadToggle"
-          @favorite-toggle="onArticleFavoriteToggle"
-        />
-      </div>
-    </div>
-  </main>
+  <v-layout class="rounded rounded-md">
+    <v-app-bar title="Crawly"></v-app-bar>
+    <FeedList
+      :articles="feedStore.unreadArticles"
+      :feeds="feedStore.feeds"
+      @feed-select="onFeedSelected"
+    />
+    <v-main>
+      <ArticleList
+        :articles="articlesToDisplay"
+        :feeds="feedStore.feeds"
+        @read-toggle="onArticleReadToggle"
+        @favorite-toggle="onArticleFavoriteToggle"
+      />
+    </v-main>
+  </v-layout>
 </template>
 
 <script setup lang="ts">
@@ -57,15 +53,4 @@ const articlesToDisplay = computed((): Article[] => {
 })
 </script>
 
-<style scoped>
-.main__container {
-  display: flex;
-}
-.home__nav {
-  width: 15vw;
-}
-
-.home__articles {
-  width: 85vw;
-}
-</style>
+<style scoped></style>

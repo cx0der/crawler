@@ -1,6 +1,10 @@
 CREATE USER crawler WITH PASSWORD 'crawler';
 CREATE DATABASE  IF NOT EXISTS crawler;
 GRANT ALL PRIVILEGES ON DATABASE crawler TO crawler;
+\c crawler
+GRANT ALL ON SCHEMA public TO crawler;
+
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
